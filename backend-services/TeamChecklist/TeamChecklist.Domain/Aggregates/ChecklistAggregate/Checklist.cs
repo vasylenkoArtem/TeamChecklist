@@ -5,13 +5,13 @@ namespace TeamChecklist.Domain.ChecklistAggregate;
 public class Checklist
 {
     public Guid Id { get; set; }
-    
+
     public DateTime? CompletedDate { get; set; }
 
     public CheckListStatus Status { get; set; }
 
     public ChecklistType Type { get; set; }
-    
+
     public IList<ChecklistItem> Items { get; set; }
 
     public ChecklistItem MarkItemAsDone(Guid itemId)
@@ -22,12 +22,16 @@ public class Checklist
         {
             throw new DomainException($"ChecklistItem with id {itemId} is not found");
         }
-        
+
         item.ChangeStatus(ChecklistItemStatus.Done);
 
         if (Items.All(x => x.Status == ChecklistItemStatus.Done))
         {
             Status = CheckListStatus.Done;
+        }
+        else if (Items.Any(x => x.Status == ChecklistItemStatus.Done))
+        {
+            Status = CheckListStatus.InProgress;
         }
 
         return item;

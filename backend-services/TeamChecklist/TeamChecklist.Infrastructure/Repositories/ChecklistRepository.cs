@@ -15,7 +15,8 @@ public class ChecklistRepository : IChecklistRepository
 
     public async Task<Checklist> GetFirst(ChecklistType type)
     {
-        var checklist = await _dbContext.Checklists.FirstOrDefaultAsync(x => x.Type == type);
+        var checklist = await _dbContext.Checklists.Include(x => x.Items)
+            .FirstOrDefaultAsync(x => x.Type == type);
 
         if (checklist is null)
         {
@@ -24,10 +25,11 @@ public class ChecklistRepository : IChecklistRepository
 
         return checklist;
     }
-    
+
     public async Task<List<Checklist>> GetAll(ChecklistType type)
     {
-        var checklistCollection = await _dbContext.Checklists.Where(x => x.Type == type)
+        var checklistCollection = await _dbContext.Checklists.Include(x => x.Items)
+            .Where(x => x.Type == type)
             .ToListAsync();
 
         return checklistCollection;
@@ -35,7 +37,8 @@ public class ChecklistRepository : IChecklistRepository
 
     public async Task<Checklist> GetById(Guid id)
     {
-        var checklist = await _dbContext.Checklists.FindAsync(id);
+        var checklist = await _dbContext.Checklists.Include(x => x.Items)
+            .FirstOrDefaultAsync(x => x.Id == id);
 
         if (checklist is null)
         {
