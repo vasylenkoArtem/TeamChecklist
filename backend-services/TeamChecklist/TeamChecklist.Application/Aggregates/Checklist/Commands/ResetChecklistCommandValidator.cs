@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using TeamChecklist.Domain.ChecklistAggregate;
 
 namespace TeamChecklist.Application.Aggregates.Checklist.Commands;
 
@@ -6,7 +7,7 @@ public class ResetChecklistCommandValidator : AbstractValidator<ResetChecklistCo
 {
     public ResetChecklistCommandValidator()
     {
-        RuleFor(x => x.ChecklistType)
+        RuleFor(x => x.ChecklistId)
             .NotEmpty();
     }
 }

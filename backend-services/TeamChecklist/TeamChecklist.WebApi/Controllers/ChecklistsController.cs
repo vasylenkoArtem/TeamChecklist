@@ -30,7 +30,20 @@ public class ChecklistsController: ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{checklistId}/item/{itemId}/mark-as-done")]
+    [HttpDelete("{checklistId}")]
+    public async Task<ActionResult<ChecklistDto>> ResetChecklist(Guid checklistId)
+    {
+        var command = new ResetChecklistCommand()
+        {
+           ChecklistId  = checklistId
+        };
+
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+    
+    [HttpPost("{checklistId}/item/{itemId}/mark-as-done")]
     public async Task<ActionResult<ChecklistDto>> MarkItemAsDone(Guid checklistId, Guid itemId)
     {
         var command = new MarkChecklistItemAsDoneCommand()

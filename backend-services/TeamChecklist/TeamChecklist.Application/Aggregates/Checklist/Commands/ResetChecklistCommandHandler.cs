@@ -17,7 +17,7 @@ public class ResetChecklistCommandHandler: IRequestHandler<ResetChecklistCommand
     public async Task<ChecklistDto> Handle(
         ResetChecklistCommand request, CancellationToken cancellationToken)
     {
-        var domainChecklist = await _checklistRepository.GetFirst(request.ChecklistType);
+        var domainChecklist = await _checklistRepository.GetById(request.ChecklistId);
         
         domainChecklist.ResetChecklist();
 

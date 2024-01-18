@@ -6,5 +6,5 @@ namespace TeamChecklist.Application.Aggregates.Checklist.Commands;
 
 public class ResetChecklistCommand: IRequest<ChecklistDto>
 {
-    public ChecklistType ChecklistType { get; set; }
+    public Guid ChecklistId { get; set; }
 }

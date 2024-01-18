@@ -2,5 +2,6 @@
 
 public enum ChecklistType
 {
+    Unknown,
     Morning
 }
