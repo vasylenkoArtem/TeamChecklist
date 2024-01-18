@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeamChecklist.Domain.ChecklistAggregate;
+using TeamChecklist.Infrastructure.SeedData.Aggregates.ChecklistAggregate;
 
 namespace TeamChecklist.Infrastructure.Configurations.Aggregates.ChecklistAggregate;
 

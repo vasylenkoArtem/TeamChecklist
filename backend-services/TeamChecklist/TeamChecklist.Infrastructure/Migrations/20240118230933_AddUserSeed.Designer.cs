@@ -12,8 +12,8 @@ using TeamChecklist.Infrastructure;
 namespace TeamChecklist.Infrastructure.Migrations
 {
     [DbContext(typeof(TeamChecklistDbContext))]
-    [Migration("20240118211958_RenameColumnCheckListItemTable")]
-    partial class RenameColumnCheckListItemTable
+    [Migration("20240118230933_AddUserSeed")]
+    partial class AddUserSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,6 +136,13 @@ namespace TeamChecklist.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7a77b40c-30ec-4d3b-b804-afdc34263f9b"),
+                            Username = "TestUserName"
+                        });
                 });
 
             modelBuilder.Entity("TeamChecklist.Domain.ChecklistAggregate.ChecklistItem", b =>

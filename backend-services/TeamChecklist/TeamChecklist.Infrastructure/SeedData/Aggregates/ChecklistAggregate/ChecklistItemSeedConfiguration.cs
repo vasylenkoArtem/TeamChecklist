@@ -7,7 +7,13 @@ namespace TeamChecklist.Infrastructure.SeedData.Aggregates.ChecklistAggregate;
 public class ChecklistItemSeedConfiguration
     : IEntityTypeConfiguration<ChecklistItem>
 {
+    
     public void Configure(EntityTypeBuilder<ChecklistItem> builder)
+    {
+        Seed(builder);
+    }
+
+    public static void Seed(EntityTypeBuilder<ChecklistItem> builder)
     {
         builder.HasData(new List<ChecklistItem>()
         {

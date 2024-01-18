@@ -9,6 +9,11 @@ public class ChecklistSeedConfiguration
 {
     public void Configure(EntityTypeBuilder<Checklist> builder)
     {
+        Seed(builder);
+    }
+
+    public static void Seed(EntityTypeBuilder<Checklist> builder)
+    {
         builder.HasData(new List<Checklist>()
         {
             new Checklist()
