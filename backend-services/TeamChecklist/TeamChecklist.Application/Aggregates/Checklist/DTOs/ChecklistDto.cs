@@ -6,7 +6,7 @@ public class ChecklistDto
 {
     public Guid Id { get; set; }
     
-    public DateTime CompletedDate { get; set; }
+    public DateTime? CompletedDate { get; set; }
 
     public CheckListStatus Status { get; set; }
     

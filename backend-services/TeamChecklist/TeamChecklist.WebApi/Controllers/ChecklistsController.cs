@@ -29,4 +29,18 @@ public class ChecklistsController: ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("{checklistId}/item/{itemId}/mark-as-done")]
+    public async Task<ActionResult<ChecklistDto>> MarkItemAsDone(Guid checklistId, Guid itemId)
+    {
+        var command = new MarkChecklistItemAsDoneCommand()
+        {
+            CheckListItemId = itemId,
+            CheckListId = checklistId
+        };
+
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
 }

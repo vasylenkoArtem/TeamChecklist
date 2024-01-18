@@ -13,4 +13,16 @@ public class ChecklistItem
     public DateTime? CompletedDate { get; set; }
     
     public Checklist Checklist { get; set; }
+
+    public void ChangeStatus(ChecklistItemStatus newStatus)
+    {
+        CompletedDate = newStatus switch
+        {
+            ChecklistItemStatus.Done => DateTime.Now,
+            ChecklistItemStatus.ToDo => null,
+            _ => CompletedDate
+        };
+
+        Status = newStatus;
+    }
 }

@@ -10,5 +10,5 @@ public class ChecklistItemDto
 
     public ChecklistItemStatus Status { get; set; }
 
-    public Guid CompletedBy { get; set; }
+    public Guid? CompletedBy { get; set; }
 }

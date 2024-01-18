@@ -1,4 +1,6 @@
-﻿namespace TeamChecklist.Domain.ChecklistAggregate;
+﻿using TeamChecklist.Domain.Exceptions;
+
+namespace TeamChecklist.Domain.ChecklistAggregate;
 
 public class Checklist
 {
@@ -11,4 +13,33 @@ public class Checklist
     public ChecklistType Type { get; set; }
     
     public IList<ChecklistItem> Items { get; set; }
+
+    public ChecklistItem MarkItemAsDone(Guid itemId)
+    {
+        var item = Items.FirstOrDefault(x => x.Id == itemId);
+
+        if (item is null)
+        {
+            throw new DomainException($"ChecklistItem with id {itemId} is not found");
+        }
+        
+        item.ChangeStatus(ChecklistItemStatus.Done);
+
+        if (Items.All(x => x.Status == ChecklistItemStatus.Done))
+        {
+            Status = CheckListStatus.Done;
+        }
+
+        return item;
+    }
+
+    public void ResetChecklist()
+    {
+        Status = CheckListStatus.Done;
+
+        foreach (var item in Items)
+        {
+            item.ChangeStatus(ChecklistItemStatus.ToDo);
+        }
+    }
 }
