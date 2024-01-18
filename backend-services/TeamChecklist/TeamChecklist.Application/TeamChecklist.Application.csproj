@@ -6,4 +6,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TeamChecklist.Domain\TeamChecklist.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Aggregates\Checklist\Commands" />
+      <Folder Include="Aggregates\Checklist\Queries" />
+      <Folder Include="Aggregates\User\Commands" />
+      <Folder Include="Aggregates\User\Queries" />
+      <Folder Include="DTOs" />
+    </ItemGroup>
+
 </Project>

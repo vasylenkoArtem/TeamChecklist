@@ -1,6 +1,8 @@
-﻿namespace TeamChecklist.Domain.ChecklistAggregate;
+﻿using TeamChecklist.Domain.ChecklistAggregate;
 
-public class ChecklistItem
+namespace TeamChecklist.Application.DTOs;
+
+public class ChecklistItemDto
 {
     public Guid Id { get; set; }
 
@@ -9,6 +11,4 @@ public class ChecklistItem
     public ChecklistItemStatus Status { get; set; }
 
     public Guid CompletedBy { get; set; }
-    
-    public Checklist Checklist { get; set; }
 }
