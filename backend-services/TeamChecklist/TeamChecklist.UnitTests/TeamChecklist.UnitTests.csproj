@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TeamChecklist.Application\TeamChecklist.Application.csproj" />
+      <ProjectReference Include="..\TeamChecklist.Domain\TeamChecklist.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
