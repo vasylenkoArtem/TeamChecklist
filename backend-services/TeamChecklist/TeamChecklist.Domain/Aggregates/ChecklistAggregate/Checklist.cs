@@ -4,7 +4,7 @@ public class Checklist
 {
     public Guid Id { get; set; }
     
-    public DateTime CompletedDate { get; set; }
+    public DateTime? CompletedDate { get; set; }
 
     public CheckListStatus Status { get; set; }
 
