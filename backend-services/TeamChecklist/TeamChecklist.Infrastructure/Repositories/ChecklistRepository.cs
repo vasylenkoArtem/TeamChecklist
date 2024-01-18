@@ -24,6 +24,14 @@ public class ChecklistRepository : IChecklistRepository
 
         return checklist;
     }
+    
+    public async Task<List<Checklist>> GetAll(ChecklistType type)
+    {
+        var checklistCollection = await _dbContext.Checklists.Where(x => x.Type == type)
+            .ToListAsync();
+
+        return checklistCollection;
+    }
 
     public async Task<Checklist> GetById(Guid id)
     {
@@ -35,5 +43,10 @@ public class ChecklistRepository : IChecklistRepository
         }
 
         return checklist;
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -30,12 +30,12 @@ public class ChecklistsController: ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete("{checklistId}")]
-    public async Task<ActionResult<ChecklistDto>> ResetChecklist(Guid checklistId)
+    [HttpPost("{typeId}/reset")]
+    public async Task<ActionResult<ChecklistDto>> ResetChecklist(ChecklistType typeId)
     {
-        var command = new ResetChecklistCommand()
+        var command = new ResetChecklistsCommand()
         {
-           ChecklistId  = checklistId
+           ChecklistType  = typeId
         };
 
         var result = await _mediator.Send(command);
