@@ -11,6 +11,8 @@ public class ChecklistItem
     public Guid? CompletedBy { get; set; }
     
     public DateTime? CompletedDate { get; set; }
+
+    public Guid ChecklistId { get; set; }
     
     public Checklist Checklist { get; set; }
 

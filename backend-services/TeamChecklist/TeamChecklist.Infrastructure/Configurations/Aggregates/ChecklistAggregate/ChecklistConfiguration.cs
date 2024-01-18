@@ -4,10 +4,10 @@ using TeamChecklist.Domain.ChecklistAggregate;
 
 namespace TeamChecklist.Infrastructure.Configurations.Aggregates.ChecklistAggregate;
 
-public class ChecklistItemAggregate
-    : IEntityTypeConfiguration<ChecklistItem>
+public class ChecklistConfiguration
+    : IEntityTypeConfiguration<Checklist>
 {
-    public void Configure(EntityTypeBuilder<ChecklistItem> builder)
+    public void Configure(EntityTypeBuilder<Checklist> builder)
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
@@ -15,7 +15,10 @@ public class ChecklistItemAggregate
             .HasDefaultValueSql("newsequentialid()");
         builder.Property(x => x.Status)
             .IsRequired(true);
-        builder.Property(x => x.TextDescription)
+        builder.Property(x => x.Type)
             .IsRequired(true);
+        
+        builder.HasMany(x => x.Items)
+            .WithOne(x => x.Checklist).HasForeignKey(x => x.ChecklistId);
     }
 }

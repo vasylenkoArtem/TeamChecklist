@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamChecklist.Infrastructure;
 
@@ -11,9 +12,11 @@ using TeamChecklist.Infrastructure;
 namespace TeamChecklist.Infrastructure.Migrations
 {
     [DbContext(typeof(TeamChecklistDbContext))]
-    partial class TeamChecklistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240118211555_AddChecklistIdToCheckListItemTable")]
+    partial class AddChecklistIdToCheckListItemTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,14 +44,6 @@ namespace TeamChecklist.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Checklists");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("be5220e3-b0bb-4bd8-8bd5-9a70d35182a7"),
-                            Status = 0,
-                            Type = 1
-                        });
                 });
 
             modelBuilder.Entity("TeamChecklist.Domain.ChecklistAggregate.ChecklistItem", b =>
@@ -58,7 +53,7 @@ namespace TeamChecklist.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newsequentialid()");
 
-                    b.Property<Guid>("ChecklistId")
+                    b.Property<Guid>("ChcklistId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CompletedBy")
@@ -76,46 +71,9 @@ namespace TeamChecklist.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChecklistId");
+                    b.HasIndex("ChcklistId");
 
                     b.ToTable("ChecklistsItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("279d04dd-53ac-432d-a906-5e6a2de8c3ff"),
-                            ChecklistId = new Guid("be5220e3-b0bb-4bd8-8bd5-9a70d35182a7"),
-                            Status = 0,
-                            TextDescription = "Turn on kitchen ventilation"
-                        },
-                        new
-                        {
-                            Id = new Guid("2ad1560f-5f23-40ac-ae70-b6b4c6cbcd1d"),
-                            ChecklistId = new Guid("be5220e3-b0bb-4bd8-8bd5-9a70d35182a7"),
-                            Status = 0,
-                            TextDescription = "Turn on the coffee machine power supply"
-                        },
-                        new
-                        {
-                            Id = new Guid("b31615ce-3a2e-4c50-8a77-d993437a74e5"),
-                            ChecklistId = new Guid("be5220e3-b0bb-4bd8-8bd5-9a70d35182a7"),
-                            Status = 0,
-                            TextDescription = "Start unfreezing semi-finished products from freezer"
-                        },
-                        new
-                        {
-                            Id = new Guid("9132432e-b53c-4a1f-bb8c-8124194ab9e0"),
-                            ChecklistId = new Guid("be5220e3-b0bb-4bd8-8bd5-9a70d35182a7"),
-                            Status = 0,
-                            TextDescription = "Prepare cups"
-                        },
-                        new
-                        {
-                            Id = new Guid("2c872939-d57e-4c11-bdd7-5312378184b8"),
-                            ChecklistId = new Guid("be5220e3-b0bb-4bd8-8bd5-9a70d35182a7"),
-                            Status = 0,
-                            TextDescription = "Turn on kitchen ventilation"
-                        });
                 });
 
             modelBuilder.Entity("TeamChecklist.Domain.UserAggregate.User", b =>
@@ -139,7 +97,7 @@ namespace TeamChecklist.Infrastructure.Migrations
                 {
                     b.HasOne("TeamChecklist.Domain.ChecklistAggregate.Checklist", "Checklist")
                         .WithMany("Items")
-                        .HasForeignKey("ChecklistId")
+                        .HasForeignKey("ChcklistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

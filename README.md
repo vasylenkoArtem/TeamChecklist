@@ -7,3 +7,6 @@ Assumptions:
 4. Assumed that all the users are in the same timezone to simplify development
 5. Assumed that checklist/items history can be tracked separately
 6. 
+
+1. Run Db migrations dotnet-ef database update "InitDatabase" --context "TeamChecklistDbContext" --project TeamChecklist.Infrastructure --
+startup-project TeamChecklist.WebApi
