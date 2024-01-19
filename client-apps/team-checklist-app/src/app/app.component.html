@@ -1,0 +1,19 @@
+<!-- app.component.html -->
+<h1>{{ title }}</h1>
+
+<div *ngIf="isLoading">Loading...</div>
+<div *ngIf="error">Error: {{ error }}</div>
+
+<div *ngIf="checklist">
+  <h2>Checklist</h2>
+  <p>Status: {{ checklist.status }}</p>
+  <p>Completed Date: {{ checklist.completedDate | date }}</p>
+
+  <h3>Items:</h3>
+  <ul>
+    <li *ngFor="let item of checklist.items">
+      {{ item.textDescription }} - {{ item.status }}
+      <span *ngIf="item.completedBy"> (Completed By: {{ item.completedBy }})</span>
+    </li>
+  </ul>
+</div>

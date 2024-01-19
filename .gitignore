@@ -457,3 +457,4 @@ $RECYCLE.BIN/
 # Project gitignore
 obj/
 bin/
+client-apps/team-checklist-app/.vscode
