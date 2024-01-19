@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ChecklistDto } from './models/checklist.models';
+import { ChecklistDto, ChecklistItemDto } from './models/checklist.models';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -20,8 +20,8 @@ export class ChecklistService {
         return this.apiService.post<ChecklistDto>(`${this.baseUrl}/${typeId}/reset`, null);
     }
 
-    public markItemAsDone(checklistId: string, itemId: string): Observable<ChecklistDto> {
-        return this.apiService.post<ChecklistDto>(`${this.baseUrl}/${checklistId}/item/${itemId}/mark-as-done`, null);
+    public markItemAsDone(checklistId: string, itemId: string): Observable<ChecklistItemDto> {
+        return this.apiService.post<ChecklistItemDto>(`${this.baseUrl}/${checklistId}/item/${itemId}/mark-as-done`, null);
     }
 }
 

@@ -1,19 +1,26 @@
 <!-- app.component.html -->
 <h1>{{ title }}</h1>
 
-<div *ngIf="isLoading">Loading...</div>
-<div *ngIf="error">Error: {{ error }}</div>
+<div *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="error" class="error-message">Error: {{ error }}</div>
 
 <div *ngIf="checklist">
-  <h2>Checklist</h2>
-  <p>Status: {{ checklist.status }}</p>
-  <p>Completed Date: {{ checklist.completedDate | date }}</p>
-
-  <h3>Items:</h3>
-  <ul>
-    <li *ngFor="let item of checklist.items">
-      {{ item.textDescription }} - {{ item.status }}
-      <span *ngIf="item.completedBy"> (Completed By: {{ item.completedBy }})</span>
-    </li>
-  </ul>
+  <mat-card>
+    <mat-card-title>Checklist: {{ checklist.status }}</mat-card-title>
+    <mat-card-subtitle>Completed Date: {{ checklist.completedDate | date }}</mat-card-subtitle>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let item of checklist.items">
+        <div matLine>{{ item.textDescription }} - {{ item.status }}</div>
+        <div matLine *ngIf="item.completedBy">Completed By: {{ item.completedBy }}</div>
+        <button mat-button [disabled]="item.status === checklistItemStatus.Done" (click)="markAsDone(checklist.id, item.id)">
+          Mark as Done
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+    <button mat-button (click)="resetChecklist()">
+      Reset
+    </button>
+  </mat-card>
 </div>

@@ -28,6 +28,7 @@ public class Checklist
         if (Items.All(x => x.Status == ChecklistItemStatus.Done))
         {
             Status = CheckListStatus.Done;
+            CompletedDate = DateTime.Now;
         }
         else if (Items.Any(x => x.Status == ChecklistItemStatus.Done))
         {
@@ -39,8 +40,9 @@ public class Checklist
 
     public void ResetChecklist()
     {
-        Status = CheckListStatus.Done;
-
+        Status = CheckListStatus.ToDo;
+        CompletedDate = null;
+        
         foreach (var item in Items)
         {
             item.ChangeStatus(ChecklistItemStatus.ToDo);
