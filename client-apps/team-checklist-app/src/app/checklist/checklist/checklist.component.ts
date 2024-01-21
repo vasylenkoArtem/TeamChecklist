@@ -1,8 +1,7 @@
-// app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CheckListStatus, ChecklistDto, ChecklistItemStatus } from '../models/checklist.models';
-import { ChecklistService, ChecklistType } from '../checklist.service';
+import { CheckListStatus, ChecklistDto, ChecklistItemStatus, ChecklistType } from '../models/checklist.models';
+import { ChecklistService } from '../checklist.service';
 
 @Component({
   selector: 'checklist',
@@ -24,15 +23,15 @@ export class ChecklistComponent implements OnInit {
   }
 
   private checkAndNotifyCompletion(): void {
-    console.log(this.checklist)
-    if (this.checklist && this.checklist.items.every(item => item.status === 1)) {
+    console.log("checkAndNotifyCompletion", this.checklist)
+    if (this.checklist && this.checklist.status === CheckListStatus.Done) {
       this.snackBar.open('You are good to go', 'Close', { duration: 3000 });
     }
   }
 
   resetChecklist() {
     this.isLoading = true;
-    this.checklistService.resetChecklist(ChecklistType.Morning).subscribe(
+    this.checklistService.resetChecklists(ChecklistType.Morning).subscribe(
       data => {
         this.getChecklist(ChecklistType.Morning)
         this.isLoading = false;
@@ -50,6 +49,8 @@ export class ChecklistComponent implements OnInit {
       data => {
         this.checklist = data;
         this.isLoading = false;
+
+        this.checkAndNotifyCompletion();
       },
       err => {
         this.error = 'Error fetching checklist: ' + err.message;
@@ -71,8 +72,6 @@ export class ChecklistComponent implements OnInit {
           this.isLoading = false;
 
           this.getChecklist(ChecklistType.Morning);
-
-          this.checkAndNotifyCompletion();
         }
 
       },

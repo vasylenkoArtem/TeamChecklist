@@ -13,12 +13,17 @@ export interface ChecklistItemDto {
 }
 
 export enum ChecklistItemStatus {
-    ToDo,
-    Done
+    ToDo = 'ToDo',
+    Done = 'Done'
 }
 
 export enum CheckListStatus {
-    ToDo,
-    InProgress,
-    Done
+    ToDo = 'ToDo',
+    InProgress = 'InProgress',
+    Done = 'Done'
+}
+
+export enum ChecklistType {
+    Unknown = 'Unknown',
+    Morning = 'Morning'
 }

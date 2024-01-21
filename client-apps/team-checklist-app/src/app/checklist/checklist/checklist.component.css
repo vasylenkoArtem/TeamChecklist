@@ -1,26 +1,49 @@
-/* app.component.css */
 .error-message {
-    color: red;
-  }
-  
-  mat-nav-list {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  mat-list-item {
-    align-items: center;
-  }
-  
-  /* Custom style for disabled buttons */
-  button[disabled] {
-    color: rgba(0, 0, 0, 0.38); /* Adjust the color as needed */
-    background-color: rgba(0, 0, 0, 0.12); /* Adjust background color as needed */
-  }
+  color: red;
+}
 
-  button {
-    color: black; /* Adjust the color as needed */
-    background-color: lightpink; /* Adjust background color as needed */
-  }
-  
+mat-nav-list {
+  width: 100%;
+  margin: 0 auto;
+}
+
+mat-list-item {
+  align-items: center;
+}
+
+button[disabled] {
+  color: rgba(0, 0, 0, 0.38);
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+button {
+  color: black;
+  background-color: lightgreen;
+}
+
+button :disabled {
+  color: black;
+  background-color: gray;
+}
+
+.checklist-title-wrapper {
+  display: grid;
+  grid-template-columns: 500px 100px;
+  grid-gap: 10px;
+}
+
+.checklist-item-wrapper {
+  display: grid;
+  grid-template-columns: 500px 100px;
+  grid-gap: 10px;
+}
+
+.title {
+  margin: 20px
+}
+
+.page-root {
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+}

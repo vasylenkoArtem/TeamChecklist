@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ChecklistDto, ChecklistItemDto } from './models/checklist.models';
+import { ChecklistDto, ChecklistItemDto, ChecklistType } from './models/checklist.models';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ChecklistService {
         return this.apiService.get<ChecklistDto>(`${this.baseUrl}/${typeId}`);
     }
 
-    public resetChecklist(typeId: ChecklistType): Observable<ChecklistDto> {
+    public resetChecklists(typeId: ChecklistType): Observable<ChecklistDto> {
         return this.apiService.post<ChecklistDto>(`${this.baseUrl}/${typeId}/reset`, null);
     }
 
@@ -25,7 +25,4 @@ export class ChecklistService {
     }
 }
 
-export enum ChecklistType {
-    Unknown,
-    Morning
-}
+
