@@ -11,7 +11,9 @@
       <div class="checklist-title-wrapper title">
         <div class="checklist-title">
           <mat-card-title>Checklist: {{ checklist.status }}</mat-card-title>
-          <mat-card-subtitle>Completed Date: {{ checklist.completedDate | date }}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="checklist.completedDate">
+            Completed Date: {{ checklist.completedDate | date }}
+          </mat-card-subtitle>
         </div>
         <div class="reset-button">
           <button mat-button (click)="resetChecklist()">
