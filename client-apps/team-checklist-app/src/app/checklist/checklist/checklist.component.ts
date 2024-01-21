@@ -23,7 +23,7 @@ export class ChecklistComponent implements OnInit, OnDestroy {
     this.checklist$ = this.checklistService.checklist$;
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.checklistSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
