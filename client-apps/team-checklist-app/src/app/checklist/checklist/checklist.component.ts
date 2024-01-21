@@ -1,25 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CheckListStatus, ChecklistDto, ChecklistItemStatus, ChecklistType } from '../models/checklist.models';
 import { ChecklistService } from '../checklist.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'checklist',
   templateUrl: './checklist.component.html',
   styleUrls: ['./checklist.component.css']
 })
-export class ChecklistComponent implements OnInit {
+export class ChecklistComponent implements OnInit, OnDestroy {
   title = "Morning Checklist"
-  checklist: ChecklistDto | null = null;
+  checklist$: Observable<ChecklistDto> | undefined;
+  checklistSubscription: Subscription | undefined;
+  checklist: ChecklistDto | undefined;
   isLoading = false;
   error: string | null = null;
   checklistEnum = CheckListStatus;
   checklistItemStatus = ChecklistItemStatus;
 
-  constructor(private checklistService: ChecklistService, private snackBar: MatSnackBar) { }
+  constructor(private checklistService: ChecklistService, private snackBar: MatSnackBar) {
+    this.checklist$ = this.checklistService.checklist$;
+  }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.getChecklist(ChecklistType.Morning);
+
+    this.checklistSubscription = this.checklistService.checklist$.subscribe(
+      (checklist) => {
+        this.checklist = checklist;
+        this.checkAndNotifyCompletion();
+      }
+    );
   }
 
   private checkAndNotifyCompletion(): void {
@@ -30,55 +45,14 @@ export class ChecklistComponent implements OnInit {
   }
 
   resetChecklist() {
-    this.isLoading = true;
-    this.checklistService.resetChecklists(ChecklistType.Morning).subscribe(
-      data => {
-        this.getChecklist(ChecklistType.Morning)
-        this.isLoading = false;
-      },
-      err => {
-        this.error = 'Error fetching checklist: ' + err.message;
-        this.isLoading = false;
-      }
-    );
+    this.checklistService.resetChecklists(ChecklistType.Morning);
   }
 
   private getChecklist(typeId: ChecklistType): void {
-    this.isLoading = true;
-    this.checklistService.getCheckList(typeId).subscribe(
-      data => {
-        this.checklist = data;
-        this.isLoading = false;
-
-        this.checkAndNotifyCompletion();
-      },
-      err => {
-        this.error = 'Error fetching checklist: ' + err.message;
-        this.isLoading = false;
-      }
-    );
+    this.checklistService.getCheckList(typeId);
   }
 
   markAsDone(checklistId: string, itemId: string): void {
-    this.isLoading = true;
-    this.checklistService.markItemAsDone(checklistId, itemId).subscribe(
-      (checklistItem) => {
-        if (this.checklist?.items) {
-          const index = this.checklist.items.findIndex(x => x.id === checklistItem.id);
-          if (index !== -1) {
-            this.checklist.items[index] = checklistItem;
-          }
-
-          this.isLoading = false;
-
-          this.getChecklist(ChecklistType.Morning);
-        }
-
-      },
-      err => {
-        this.error = 'Error marking item as done: ' + err.message;
-        this.isLoading = false;
-      }
-    );
+    this.checklistService.markItemAsDone(checklistId, itemId);
   }
 }
