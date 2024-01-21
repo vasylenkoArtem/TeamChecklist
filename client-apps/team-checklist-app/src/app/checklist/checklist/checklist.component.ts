@@ -11,7 +11,6 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class ChecklistComponent implements OnInit, OnDestroy {
   title = "Morning Checklist"
-  checklist$: Observable<ChecklistDto> | undefined;
   checklistSubscription: Subscription | undefined;
   checklist: ChecklistDto | undefined;
   isLoading = false;
@@ -20,8 +19,8 @@ export class ChecklistComponent implements OnInit, OnDestroy {
   checklistItemStatus = ChecklistItemStatus;
 
   constructor(private checklistService: ChecklistService, private snackBar: MatSnackBar) {
-    this.checklist$ = this.checklistService.checklist$;
   }
+
   ngOnDestroy(): void {
     this.checklistSubscription?.unsubscribe();
   }
@@ -38,7 +37,6 @@ export class ChecklistComponent implements OnInit, OnDestroy {
   }
 
   private checkAndNotifyCompletion(): void {
-    console.log("checkAndNotifyCompletion", this.checklist)
     if (this.checklist && this.checklist.status === CheckListStatus.Done) {
       this.snackBar.open('You are good to go', 'Close', { duration: 3000 });
     }
