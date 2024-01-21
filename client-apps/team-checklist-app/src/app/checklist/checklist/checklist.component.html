@@ -16,7 +16,7 @@
           </mat-card-subtitle>
         </div>
         <div class="reset-button">
-          <button mat-button (click)="resetChecklist()">
+          <button mat-button [disabled]="checklist.status === checklistStatusEnum.ToDo" (click)="resetChecklist()">
             Reset
           </button>
         </div>

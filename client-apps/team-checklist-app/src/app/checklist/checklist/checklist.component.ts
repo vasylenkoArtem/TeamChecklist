@@ -16,7 +16,7 @@ export class ChecklistComponent implements OnInit, OnDestroy {
   checklist: ChecklistDto | undefined;
   isLoading = false;
   error: string | null = null;
-  checklistEnum = CheckListStatus;
+  checklistStatusEnum = CheckListStatus;
   checklistItemStatus = ChecklistItemStatus;
 
   constructor(private checklistService: ChecklistService, private snackBar: MatSnackBar) {
