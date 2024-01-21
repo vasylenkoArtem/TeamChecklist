@@ -4,6 +4,11 @@ namespace TeamChecklist.Domain.ChecklistAggregate;
 
 public class Checklist
 {
+    public Checklist()
+    {
+        Items = new List<ChecklistItem>();
+    }
+
     public Guid Id { get; set; }
 
     public DateTime? CompletedDate { get; set; }
