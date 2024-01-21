@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamChecklist.Application",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamChecklist.UnitTests", "TeamChecklist.UnitTests\TeamChecklist.UnitTests.csproj", "{89C05776-DF16-4F7C-BF57-F5F01A118210}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D57F0F47-66BE-42E1-950E-464B7C895E34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamChecklist.JobsWorker", "TeamChecklist.JobsWorker\TeamChecklist.JobsWorker.csproj", "{931E8C4F-44E5-4021-920C-DF67614BADDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{89C05776-DF16-4F7C-BF57-F5F01A118210}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89C05776-DF16-4F7C-BF57-F5F01A118210}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89C05776-DF16-4F7C-BF57-F5F01A118210}.Release|Any CPU.Build.0 = Release|Any CPU
+		{931E8C4F-44E5-4021-920C-DF67614BADDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{931E8C4F-44E5-4021-920C-DF67614BADDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{931E8C4F-44E5-4021-920C-DF67614BADDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{931E8C4F-44E5-4021-920C-DF67614BADDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D155A19F-2600-4377-8153-6E12BF77C6D1} = {D57F0F47-66BE-42E1-950E-464B7C895E34}
+		{931E8C4F-44E5-4021-920C-DF67614BADDC} = {D57F0F47-66BE-42E1-950E-464B7C895E34}
 	EndGlobalSection
 EndGlobal
