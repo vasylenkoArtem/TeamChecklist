@@ -22,9 +22,20 @@ public class MarkChecklistItemAsDoneCommandHandlerTests
     public async Task Handle_ShouldCallGetByIdOnce()
     {
         // Arrange
+        var checkListId = Guid.NewGuid();
         var command = new MarkChecklistItemAsDoneCommand
-            { CheckListId = Guid.NewGuid(), CheckListItemId = Guid.NewGuid() };
-        _mockChecklistRepository.Setup(x => x.GetById(It.IsAny<Guid>())).ReturnsAsync(new Checklist());
+            { CheckListId = Guid.NewGuid(), CheckListItemId = checkListId };
+        _mockChecklistRepository.Setup(x => x.GetById(It.IsAny<Guid>())).ReturnsAsync(
+            new Checklist()
+            {
+                Items = new List<ChecklistItem>()
+                {
+                    new ChecklistItem()
+                    {
+                        Id = checkListId
+                    }
+                }
+            });
 
         // Act
         await _handler.Handle(command, _cancellationToken);
@@ -37,10 +48,20 @@ public class MarkChecklistItemAsDoneCommandHandlerTests
     public async Task Handle_ShouldCallSaveChangesOnce()
     {
         // Arrange
+        var checkListId = Guid.NewGuid();
         var command = new MarkChecklistItemAsDoneCommand
-            { CheckListId = Guid.NewGuid(), CheckListItemId = Guid.NewGuid() };
-        _mockChecklistRepository.Setup(x => x.GetById(It.IsAny<Guid>())).ReturnsAsync(new Checklist());
-
+            { CheckListId = Guid.NewGuid(), CheckListItemId = checkListId };
+        _mockChecklistRepository.Setup(x => x.GetById(It.IsAny<Guid>())).ReturnsAsync(
+            new Checklist()
+            {
+                Items = new List<ChecklistItem>()
+                {
+                    new ChecklistItem()
+                    {
+                        Id = checkListId
+                    }
+                }
+            });
         // Act
         await _handler.Handle(command, _cancellationToken);
 
