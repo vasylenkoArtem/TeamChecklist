@@ -16,7 +16,7 @@ public class ChecklistTests
         checklist.Items.Add(item);
 
         // Act
-        var result = checklist.MarkItemAsDone(item.Id);
+        var result = checklist.MarkItemAsDone(item.Id, Guid.Empty);
 
         // Assert
         result.Status.Should().Be(ChecklistItemStatus.Done);
@@ -46,7 +46,7 @@ public class ChecklistTests
         };
     
         // Act
-        checklist.MarkItemAsDone(lastItemId);
+        checklist.MarkItemAsDone(lastItemId, Guid.Empty);
 
         // Assert
         checklist.Status.Should().Be(CheckListStatus.Done);
@@ -85,7 +85,7 @@ public class ChecklistTests
         var nonExistentItemId = Guid.NewGuid();
 
         // Act
-        Action act = () => checklist.MarkItemAsDone(nonExistentItemId);
+        Action act = () => checklist.MarkItemAsDone(nonExistentItemId, Guid.Empty);
 
         // Assert
         act.Should().Throw<DomainException>()

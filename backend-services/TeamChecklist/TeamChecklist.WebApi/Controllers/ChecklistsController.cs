@@ -10,6 +10,8 @@ namespace TeamChecklist.Controllers;
 [Route("checklists")]
 public class ChecklistsController: ControllerBase
 {
+    private const string UserId = "7a77b40c-30ec-4d3b-b804-afdc34263f9b";
+    
     private readonly IMediator _mediator;
 
     public ChecklistsController(IMediator mediator)
@@ -49,7 +51,8 @@ public class ChecklistsController: ControllerBase
         var command = new MarkChecklistItemAsDoneCommand()
         {
             CheckListItemId = itemId,
-            CheckListId = checklistId
+            CheckListId = checklistId,
+            UserId = Guid.Parse(UserId)
         };
 
         var result = await _mediator.Send(command);

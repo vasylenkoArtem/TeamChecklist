@@ -19,7 +19,7 @@ public class Checklist
 
     public IList<ChecklistItem> Items { get; set; }
 
-    public ChecklistItem MarkItemAsDone(Guid itemId)
+    public ChecklistItem MarkItemAsDone(Guid itemId, Guid userId)
     {
         var item = Items.FirstOrDefault(x => x.Id == itemId);
 
@@ -28,7 +28,7 @@ public class Checklist
             throw new DomainException($"ChecklistItem with id {itemId} is not found");
         }
 
-        item.ChangeStatus(ChecklistItemStatus.Done);
+        item.ChangeStatus(ChecklistItemStatus.Done, userId);
 
         if (Items.All(x => x.Status == ChecklistItemStatus.Done))
         {
@@ -50,7 +50,7 @@ public class Checklist
         
         foreach (var item in Items)
         {
-            item.ChangeStatus(ChecklistItemStatus.ToDo);
+            item.ChangeStatus(ChecklistItemStatus.ToDo, Guid.Empty);
         }
     }
 }

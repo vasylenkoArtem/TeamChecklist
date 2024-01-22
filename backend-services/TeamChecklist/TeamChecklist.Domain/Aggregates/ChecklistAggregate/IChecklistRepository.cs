@@ -1,12 +1,11 @@
-﻿namespace TeamChecklist.Domain.ChecklistAggregate;
+﻿
+namespace TeamChecklist.Domain.ChecklistAggregate;
 
-public interface IChecklistRepository
+public interface IChecklistRepository : IRepositoryBase
 {
     Task<Checklist> GetFirst(ChecklistType type);
 
     Task<List<Checklist>> GetAll(ChecklistType type);
     
     Task<Checklist> GetById(Guid id);
-
-    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

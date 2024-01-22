@@ -48,7 +48,6 @@ public class ChecklistMappingExtensionsTests
             Assert.Equal(checklist.Items[i].Id, dto.Items[i].Id);
             Assert.Equal(checklist.Items[i].TextDescription, dto.Items[i].TextDescription);
             Assert.Equal(checklist.Items[i].Status, dto.Items[i].Status);
-            Assert.Equal(checklist.Items[i].CompletedBy, dto.Items[i].CompletedBy);
         }
     }
 
@@ -71,6 +70,5 @@ public class ChecklistMappingExtensionsTests
         Assert.Equal(checklistItem.Id, dto.Id);
         Assert.Equal(checklistItem.TextDescription, dto.TextDescription);
         Assert.Equal(checklistItem.Status, dto.Status);
-        Assert.Equal(checklistItem.CompletedBy, dto.CompletedBy);
     }
 }

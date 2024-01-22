@@ -1,4 +1,6 @@
-﻿namespace TeamChecklist.Domain.ChecklistAggregate;
+﻿using TeamChecklist.Domain.UserAggregate;
+
+namespace TeamChecklist.Domain.ChecklistAggregate;
 
 public class ChecklistItem
 {
@@ -9,21 +11,30 @@ public class ChecklistItem
     public ChecklistItemStatus Status { get; set; }
 
     public Guid? CompletedBy { get; set; }
-    
+
     public DateTime? CompletedDate { get; set; }
 
     public Guid ChecklistId { get; set; }
-    
+
     public Checklist Checklist { get; set; }
 
-    public void ChangeStatus(ChecklistItemStatus newStatus)
+    public User CompletedByUser { get; set; }
+
+    public void ChangeStatus(ChecklistItemStatus newStatus, Guid userId)
     {
-        CompletedDate = newStatus switch
+        switch (newStatus)
         {
-            ChecklistItemStatus.Done => DateTime.Now,
-            ChecklistItemStatus.ToDo => null,
-            _ => CompletedDate
-        };
+            case ChecklistItemStatus.Done:
+                CompletedDate = DateTime.Now;
+                CompletedBy = userId;
+                break;
+            case ChecklistItemStatus.ToDo:
+                CompletedDate = null;
+                CompletedBy = null;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newStatus), newStatus, null);
+        }
 
         Status = newStatus;
     }

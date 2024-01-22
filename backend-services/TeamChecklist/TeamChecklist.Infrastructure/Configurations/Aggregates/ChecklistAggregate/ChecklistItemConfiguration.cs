@@ -17,5 +17,9 @@ public class ChecklistItemConfiguration
             .IsRequired(true);
         builder.Property(x => x.TextDescription)
             .IsRequired(true);
+        builder.HasOne(x => x.CompletedByUser)
+            .WithMany()
+            .HasForeignKey(x => x.CompletedBy)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

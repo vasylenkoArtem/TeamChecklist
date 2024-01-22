@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TeamChecklist.Domain.ChecklistAggregate;
+using TeamChecklist.Domain.UserAggregate;
 
 namespace TeamChecklist.Infrastructure;
 
@@ -19,6 +20,8 @@ public class TeamChecklistDbContext : DbContext
     public DbSet<Checklist> Checklists { get; set; }
     
     public DbSet<ChecklistItem> ChecklistsItems { get; set; }
+    
+    public DbSet<User> Users { get; set; }
     
     // Configuration for EF migrations run
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

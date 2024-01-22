@@ -4,18 +4,20 @@ using TeamChecklist.Domain.Exceptions;
 
 namespace TeamChecklist.Infrastructure.Repositories;
 
-public class ChecklistRepository : IChecklistRepository
+public class ChecklistRepository : RepositoryBase, IChecklistRepository
 {
     private readonly TeamChecklistDbContext _dbContext;
 
-    public ChecklistRepository(TeamChecklistDbContext dbContext)
+    public ChecklistRepository(TeamChecklistDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
     }
 
     public async Task<Checklist> GetFirst(ChecklistType type)
     {
-        var checklist = await _dbContext.Checklists.Include(x => x.Items)
+        var checklist = await _dbContext.Checklists
+            .Include(x => x.Items)
+            .ThenInclude(x => x.CompletedByUser)
             .FirstOrDefaultAsync(x => x.Type == type);
 
         if (checklist is null)
@@ -46,10 +48,5 @@ public class ChecklistRepository : IChecklistRepository
         }
 
         return checklist;
-    }
-
-    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

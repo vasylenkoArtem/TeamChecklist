@@ -23,8 +23,8 @@ public static class ChecklistMappingExtensions
         {
             Id = item.Id,
             Status = item.Status,
-            CompletedBy = item.CompletedBy,
-            TextDescription = item.TextDescription
+            TextDescription = item.TextDescription,
+            CompletedBy = item.CompletedByUser?.Username,
         };
     }
 }

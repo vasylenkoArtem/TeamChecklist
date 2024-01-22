@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamChecklist.Infrastructure;
 
@@ -11,9 +12,11 @@ using TeamChecklist.Infrastructure;
 namespace TeamChecklist.Infrastructure.Migrations
 {
     [DbContext(typeof(TeamChecklistDbContext))]
-    partial class TeamChecklistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240122095817_UpdateChecklistItemUserColumn")]
+    partial class UpdateChecklistItemUserColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

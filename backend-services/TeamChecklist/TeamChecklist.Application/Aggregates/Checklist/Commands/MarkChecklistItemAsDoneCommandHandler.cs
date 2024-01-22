@@ -19,7 +19,7 @@ public class MarkChecklistItemAsDoneCommandHandler: IRequestHandler<MarkChecklis
     {
         var checklist = await _checklistRepository.GetById(request.CheckListId);
 
-        var checklistItem = checklist.MarkItemAsDone(request.CheckListItemId);
+        var checklistItem = checklist.MarkItemAsDone(request.CheckListItemId, request.UserId);
 
         await _checklistRepository.SaveChangesAsync(cancellationToken);
         
