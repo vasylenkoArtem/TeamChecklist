@@ -2,8 +2,10 @@
 using Moq;
 using System;
 using System.Threading;
+using FluentAssertions;
 using TeamChecklist.Application.Aggregates.Checklist.Queries;
 using TeamChecklist.Domain.ChecklistAggregate;
+using TeamChecklist.Domain.UserAggregate;
 
 public class GetChecklistQueryHandlerTests
 {
@@ -23,12 +25,30 @@ public class GetChecklistQueryHandlerTests
     {
         // Arrange
         var query = new GetChecklistQuery { ChecklistType = ChecklistType.Morning };
-        _mockChecklistRepository.Setup(x => x.GetFirst(ChecklistType.Morning)).ReturnsAsync(new Checklist());
+        _mockChecklistRepository.Setup(x => x.GetFirst(ChecklistType.Morning))
+            .ReturnsAsync(new Checklist()
+            {
+                Items = new List<ChecklistItem>()
+                {
+                    new ChecklistItem()
+                    {
+                        CompletedByUser = new User()
+                        {
+                            Id = Guid.NewGuid(),
+                            Username = "Test username"
+                        }
+                    }
+                }
+            });
 
         // Act
-        await _handler.Handle(query, _cancellationToken);
+        var user = await _handler.Handle(query, _cancellationToken);
 
         // Assert
         _mockChecklistRepository.Verify(x => x.GetFirst(query.ChecklistType), Times.Once);
+        
+        user.Should().NotBeNull();
+        user.Items.Should().NotBeEmpty();
+        user.Items.First().CompletedBy.Should().NotBeNull();
     }
 }
