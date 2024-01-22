@@ -14,7 +14,8 @@ export class ChecklistComponent implements OnInit, OnDestroy {
   checklistSubscription: Subscription | undefined;
   checklist: ChecklistDto | undefined;
   isLoading = false;
-  error: string | null = null;
+  errorMessage: string | undefined = undefined;
+  errorMessageSubscription: Subscription | undefined;
   checklistStatusEnum = CheckListStatus;
   checklistItemStatus = ChecklistItemStatus;
 
@@ -34,11 +35,23 @@ export class ChecklistComponent implements OnInit, OnDestroy {
         this.checkAndNotifyCompletion();
       }
     );
+    this.errorMessageSubscription = this.checklistService.errorMessage$.subscribe(
+      (message) => {
+        this.errorMessage = message;
+        this.checkAndNotifyError();
+      }
+    );
   }
 
   private checkAndNotifyCompletion(): void {
     if (this.checklist && this.checklist.status === CheckListStatus.Done) {
       this.snackBar.open('You are good to go', 'Close', { duration: 3000 });
+    }
+  }
+
+  private checkAndNotifyError(): void {
+    if (this.errorMessage) {
+      this.snackBar.open(`Error occured, ${this.errorMessage}`, 'Close', { duration: 3000 });
     }
   }
 

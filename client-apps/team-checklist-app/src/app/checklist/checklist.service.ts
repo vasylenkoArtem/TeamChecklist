@@ -14,6 +14,8 @@ export class ChecklistService {
   public readonly checklist$: Observable<ChecklistDto> = this._checklist.asObservable();
   private _isLoading = new BehaviorSubject<boolean>(false);
   public readonly isLoading$: Observable<boolean> = this._isLoading.asObservable();
+  private _errorMessage = new BehaviorSubject<string | undefined>(undefined);
+  public readonly errorMessage$: Observable<string | undefined> = this._errorMessage.asObservable();
 
   constructor(private apiService: ApiService) { }
 
@@ -25,7 +27,13 @@ export class ChecklistService {
     this._isLoading.next(true);
     let query = this.apiService.get<ChecklistDto>(`${this.baseUrl}/${typeId}`)
     query.subscribe(data => {
+      this._errorMessage.next(undefined);
       this._checklist.next(data);
+      this._isLoading.next(false);
+    },
+    error => {
+      console.log(error)
+      this._errorMessage.next(error.message);
       this._isLoading.next(false);
     });
   }
@@ -34,15 +42,22 @@ export class ChecklistService {
     this._isLoading.next(true);
     let query = this.apiService.post<ChecklistDto>(`${this.baseUrl}/${typeId}/reset`, null);
     query.subscribe(_ => {
+      this._errorMessage.next(undefined);
       this._isLoading.next(false);
       this.getCheckList(ChecklistType.Morning)
-    });
-  }
+    },
+    error => {
+      console.log(error)
+      this._errorMessage.next(error.message);
+      this._isLoading.next(false);
+    });  }
 
   public markItemAsDone(checklistId: string, itemId: string) {
     this._isLoading.next(true);
     let query = this.apiService.post<ChecklistItemDto>(`${this.baseUrl}/${checklistId}/item/${itemId}/mark-as-done`, null);
     query.subscribe(data => {
+      this._errorMessage.next(undefined);
+    
       let currentChecklist = this._checklist.getValue();
       let itemToUpdate = currentChecklist.items.find(i => i.id === itemId);
       if (itemToUpdate) {
@@ -54,6 +69,10 @@ export class ChecklistService {
       this._isLoading.next(false);
 
       this.getCheckList(ChecklistType.Morning)
+    },
+    error => {
+      this._errorMessage.next(error.message);
+      this._isLoading.next(false);
     });
   }
 }
