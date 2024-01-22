@@ -9,9 +9,11 @@
     <ItemGroup>
       <ProjectReference Include="..\TeamChecklist.Application\TeamChecklist.Application.csproj" />
       <ProjectReference Include="..\TeamChecklist.Domain\TeamChecklist.Domain.csproj" />
+      <ProjectReference Include="..\TeamChecklist.WebApi\TeamChecklist.WebApi.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
       <PackageReference Include="Moq" Version="4.20.70" />
       <PackageReference Include="xunit" Version="2.6.6" />
