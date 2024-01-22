@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 import { ChecklistDto, ChecklistItemDto, ChecklistType } from './models/checklist.models';
 import { ApiService } from '../api/api.service';
 
@@ -23,56 +23,76 @@ export class ChecklistService {
     this._checklist.next({} as ChecklistDto);
   }
 
-  public getCheckList(typeId: ChecklistType) {
+  public getCheckList(typeId: ChecklistType): void {
     this._isLoading.next(true);
+
     let query = this.apiService.get<ChecklistDto>(`${this.baseUrl}/${typeId}`)
-    query.subscribe(data => {
-      this._errorMessage.next(undefined);
-      this._checklist.next(data);
-      this._isLoading.next(false);
-    },
-    error => {
-      console.log(error)
-      this._errorMessage.next(error.message);
-      this._isLoading.next(false);
+    query.pipe(
+      catchError(error => {
+        throw error;
+      })
+    ).subscribe({
+      next: data => {
+        this._errorMessage.next(undefined);
+        this._checklist.next(data);
+        this._isLoading.next(false);
+      },
+      error: error => {
+        this._errorMessage.next(error.message);
+        this._isLoading.next(false);
+      }
     });
   }
 
   public resetChecklists(typeId: ChecklistType) {
     this._isLoading.next(true);
     let query = this.apiService.post<ChecklistDto>(`${this.baseUrl}/${typeId}/reset`, null);
-    query.subscribe(_ => {
-      this._errorMessage.next(undefined);
-      this._isLoading.next(false);
-      this.getCheckList(ChecklistType.Morning)
-    },
-    error => {
-      console.log(error)
-      this._errorMessage.next(error.message);
-      this._isLoading.next(false);
-    });  }
+
+    query.pipe(
+      catchError(error => {
+        throw error;
+      })
+    ).subscribe({
+      next: data => {
+        this._errorMessage.next(undefined);
+        this.getCheckList(ChecklistType.Morning)
+        this._isLoading.next(false);
+      },
+      error: error => {
+        this._errorMessage.next(error.message);
+        this._isLoading.next(false);
+      }
+    });
+  }
 
   public markItemAsDone(checklistId: string, itemId: string) {
     this._isLoading.next(true);
     let query = this.apiService.post<ChecklistItemDto>(`${this.baseUrl}/${checklistId}/item/${itemId}/mark-as-done`, null);
-    query.subscribe(data => {
-      this._errorMessage.next(undefined);
-    
-      let currentChecklist = this._checklist.getValue();
-      let itemToUpdate = currentChecklist.items.find(i => i.id === itemId);
-      if (itemToUpdate) {
-        itemToUpdate.status = data.status;
-        itemToUpdate.completedBy = data.completedBy;
+
+    query.pipe(
+      catchError(error => {
+        throw error;
+      })
+    ).subscribe({
+      next: data => {
+        this._errorMessage.next(undefined);
+
+        let currentChecklist = this._checklist.getValue();
+        let itemToUpdate = currentChecklist.items.find(i => i.id === itemId);
+        if (itemToUpdate) {
+          itemToUpdate.status = data.status;
+          itemToUpdate.completedBy = data.completedBy;
+        }
+        this._checklist.next(currentChecklist);
+
+        this._isLoading.next(false);
+
+        this.getCheckList(ChecklistType.Morning)
+      },
+      error: error => {
+        this._errorMessage.next(error.message);
+        this._isLoading.next(false);
       }
-      this._checklist.next(currentChecklist);
-
-      this._isLoading.next(false);
-
-      this.getCheckList(ChecklistType.Morning)
-    },
-    error => {
-      this._errorMessage.next(error.message);
-      this._isLoading.next(false);
     });
   }
 }
